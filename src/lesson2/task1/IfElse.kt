@@ -69,10 +69,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if (age % 10 == 1 && age != 11 && age != 111) return "$age год"
-    if (age % 10 in 2..4 && age <= 14 && age > 4 || age in 111..114) return "$age лет"
-    return if (age % 10 in 2..4 && age > 14 || age == 2 || age == 3 || age == 4) "$age года"
-    else "$age лет"
+    return when {
+        age % 10 == 1 && age != 11 && age != 111 -> "$age год"
+        age % 10 in 2..4 && ((age < 12 || age > 14) && (age < 112 || age > 114)) -> "$age года"
+        else -> "$age лет"
+    }
 }
 
 /**
@@ -89,8 +90,8 @@ fun timeForHalfWay(
 ): Double {
     val s = (v1 * t1 + v2 * t2 + v3 * t3)
     if ((s / 2) < (t1 * v1)) return (s / 2) / v1
-    if ((s / 2) > (t1 * v1 + t2 * v2)) return t1 + t2 + (s / 2 - (t1 * v1 + t2 * v2)) / v3
-    else return t1 + ((s / 2 - v1 * t1) / v2)
+    return if ((s / 2) > (t1 * v1 + t2 * v2)) t1 + t2 + (s / 2 - (t1 * v1 + t2 * v2)) / v3
+    else t1 + ((s / 2 - v1 * t1) / v2)
 }
 
 /**
@@ -106,7 +107,14 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    return when {
+        (kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2) -> 3
+        (kingX == rookX1 || kingY == rookY1) -> 1
+        (kingX == rookX2 || kingY == rookY2) -> 2
+        else -> 0
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -122,7 +130,14 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    return when {
+        (kingX == rookX || kingY == rookY) && (((kingX - bishopX) == (kingY - bishopY)) || ((kingX - bishopX) == ((-1) * (kingY - bishopY)))) -> 3
+        (kingX == rookX || kingY == rookY) -> 1
+        ((kingX - bishopX == kingY - bishopY) || ((kingX - bishopX) == ((-1) * (kingY - bishopY)))) -> 2
+        else -> 0
+    }
+}
 
 /**
  * Простая (2 балла)
