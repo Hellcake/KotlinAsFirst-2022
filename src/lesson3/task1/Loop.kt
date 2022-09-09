@@ -75,10 +75,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var counter = 0
     var number = n
-    while (number >= 0) {
+    if (number == 0) return 1
+    while (number > 0) {
         counter++
         number /= 10
-        number -= 1
     }
     return counter
 }
@@ -101,14 +101,29 @@ fun fib(n: Int): Int =
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (i in 2..n) {
+        if (n % i == 0) {
+            return i
+        }
+    }
+    return -1
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    for (i in n / 2 downTo 1) {
+        if (n % i == 0) {
+            return i
+        }
+    }
+    return -1
+
+}
 
 /**
  * Простая (2 балла)
@@ -126,7 +141,20 @@ fun maxDivisor(n: Int): Int = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var num = x
+    var counter = 0
+    while (num != 1) {
+        if (num % 2 == 0) {
+            num /= 2
+            counter++
+        } else {
+            num = 3 * num + 1
+            counter++
+        }
+    }
+    return counter
+}
 
 /**
  * Средняя (3 балла)
@@ -134,7 +162,18 @@ fun collatzSteps(x: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var a = m
+    var b = n
+    while (a != b) {
+        if (a > b) {
+            a -= b
+        } else {
+            b -= a
+        }
+    }
+    return n * m / a
+}
 
 /**
  * Средняя (3 балла)
@@ -143,7 +182,18 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var a = m
+    var b = n
+    while (a != b) {
+        if (a > b) {
+            a -= b
+        } else {
+            b -= a
+        }
+    }
+    return a == 1
+}
 
 /**
  * Средняя (3 балла)
@@ -152,7 +202,15 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var number = n
+    var result = 0
+    while (number != 0) {
+        result = (result * 10 + number % 10)
+        number /= 10
+    }
+    return result
+}
 
 /**
  * Средняя (3 балла)
