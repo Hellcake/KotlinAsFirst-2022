@@ -92,7 +92,7 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var a = 1
     var b = 1
-    var c = 0
+    var c: Int
     var counter = 1
     while (counter != n) {
         c = a
