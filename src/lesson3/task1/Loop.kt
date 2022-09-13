@@ -104,7 +104,6 @@ fun fib(n: Int): Int {
     return b
 }
 
-
 /**
  * Простая (2 балла)
  *
@@ -166,11 +165,6 @@ fun collatzSteps(x: Int): Int {
 }
 
 
-
-
-
-
-
 fun nod(m: Int, n: Int): Int {
     var a = m
     var b = n
@@ -183,20 +177,14 @@ fun nod(m: Int, n: Int): Int {
     }
     return a
 }
+
 /**
  * Средняя (3 балла)
  *
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-
-
-
-
-
-
-fun lcm(m: Int, n: Int): Int = n * m / nod(m, n)
-
+fun lcm(m: Int, n: Int) = n * m / nod(m, n)
 
 /**
  * Средняя (3 балла)
@@ -218,7 +206,7 @@ fun revert(n: Int): Int {
     var number = n
     var result = 0
     while (number != 0) {
-        result = (result * 10 + number % 10)
+        result = result * 10 + number % 10
         number /= 10
     }
     return result
@@ -234,6 +222,7 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean = n == revert(n)
+
 /**
  * Средняя (3 балла)
  *
