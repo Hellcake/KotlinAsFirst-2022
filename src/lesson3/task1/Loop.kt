@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import kotlin.math.abs
 import kotlin.math.sqrt
 
@@ -231,7 +232,16 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    val s = n % 10
+    var num = n / 10
+    while (num > 0) {
+        if (s != num % 10) {
+            return true
+        } else num /= 10
+    }
+    return false
+}
 
 /**
  * Средняя (4 балла)
@@ -264,7 +274,25 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var num = n
+    var digit = 1
+    var result = 1
+    var counter: Int
+    while (num > 0) {
+        result = sqr(digit)
+        counter = digitNumber(result)
+        if (counter <= num) {
+            num -= counter
+            digit += 1
+        } else {
+            result /= 10
+            num -= 1
+            counter -= 1
+        }
+    }
+    return result % 10
+}
 
 /**
  * Сложная (5 баллов)
