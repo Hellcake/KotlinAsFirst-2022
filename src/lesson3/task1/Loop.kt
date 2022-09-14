@@ -278,7 +278,7 @@ fun squareSequenceDigit(n: Int): Int {
     var num = n
     var digit = 1
     var result = 1
-    var counter: Int
+    var counter = 0
     while (num > 0) {
         result = sqr(digit)
         counter = digitNumber(result)
@@ -287,10 +287,8 @@ fun squareSequenceDigit(n: Int): Int {
             digit += 1
         } else break
     }
-    counter = digitNumber(result)
-    if (num == 0) return result % 10
 
-    while (counter > num) {
+    while (counter > num && num != 0) {
         result /= 10
         counter -= 1
     }
