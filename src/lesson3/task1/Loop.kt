@@ -285,11 +285,14 @@ fun squareSequenceDigit(n: Int): Int {
         if (counter <= num) {
             num -= counter
             digit += 1
-        } else {
-            result /= 10
-            num -= 1
-            counter -= 1
-        }
+        } else break
+    }
+    counter = digitNumber(result)
+    if (num == 0) return result % 10
+
+    while (counter > num) {
+        result /= 10
+        counter -= 1
     }
     return result % 10
 }

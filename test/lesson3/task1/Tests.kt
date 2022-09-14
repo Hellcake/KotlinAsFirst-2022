@@ -220,10 +220,13 @@ class Tests {
         assertEquals(1, squareSequenceDigit(1))
         assertEquals(4, squareSequenceDigit(2))
         assertEquals(9, squareSequenceDigit(3))
+        assertEquals(2, squareSequenceDigit(6))
         assertEquals(5, squareSequenceDigit(7))
         assertEquals(6, squareSequenceDigit(12))
         assertEquals(0, squareSequenceDigit(17))
         assertEquals(9, squareSequenceDigit(27))
+        assertEquals(1, squareSequenceDigit(22))
+        assertEquals(8, squareSequenceDigit(4555))
     }
 
     @Test
