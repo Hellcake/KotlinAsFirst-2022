@@ -111,12 +111,12 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n) {
+    for (i in 2..sqrt(n.toDouble()).toInt()) {
         if (n % i == 0) {
             return i
         }
     }
-    return -1
+    return n
 }
 
 /**
@@ -131,7 +131,6 @@ fun maxDivisor(n: Int): Int {
         }
     }
     return -1
-
 }
 
 /**
