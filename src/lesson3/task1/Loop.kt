@@ -263,22 +263,13 @@ fun sin(x: Double, eps: Double): Double = TODO()
  */
 fun cos(x: Double, eps: Double): Double = TODO()
 
-/**
- * Сложная (4 балла)
- *
- * Найти n-ю цифру последовательности из квадратов целых чисел:
- * 149162536496481100121144...
- * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
- *
- * Использовать операции со строками в этой задаче запрещается.
- */
-fun squareSequenceDigit(n: Int): Int {
+fun universal(n: Int, function: (Int) -> Int): Int {
     var num = n
     var digit = 1
     var result = 1
     var counter = 0
     while (num > 0) {
-        result = sqr(digit)
+        result = function(digit)
         counter = digitNumber(result)
         if (counter <= num) {
             num -= counter
@@ -292,6 +283,17 @@ fun squareSequenceDigit(n: Int): Int {
     }
     return result % 10
 }
+
+/**
+ * Сложная (4 балла)
+ *
+ * Найти n-ю цифру последовательности из квадратов целых чисел:
+ * 149162536496481100121144...
+ * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
+ *
+ * Использовать операции со строками в этой задаче запрещается.
+ */
+fun squareSequenceDigit(n: Int): Int = universal(n, ::sqr)
 
 /**
  * Сложная (5 баллов)
@@ -302,23 +304,4 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int {
-    var num = n
-    var digit = 1
-    var result = 1
-    var counter = 0
-    while (num > 0) {
-        result = fib(digit)
-        counter = digitNumber(result)
-        if (counter <= num) {
-            num -= counter
-            digit += 1
-        } else break
-    }
-
-    while (counter > num && num != 0) {
-        result /= 10
-        counter -= 1
-    }
-    return result % 10
-}
+fun fibSequenceDigit(n: Int): Int = universal(n, ::fib)
