@@ -252,19 +252,19 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun sincos(x: Double, eps: Double, c: Int, variable: Double): Double {
     var counter = c
     var func = variable
-    var blinker = 1
+    var blinker = -1
     var result = 0.0
     while (eps <= abs(func)) {
         result += func
+        func = blinker * ((x % (2 * PI)).pow(counter) / factorial(counter))
         counter += 2
         blinker *= -1
-        func = blinker * ((x % (2 * PI)).pow(counter) / factorial(counter))
     }
     return result
 
 }
 
-fun sin(x: Double, eps: Double): Double = sincos(x, eps, 1, (x % (2 * PI)))
+fun sin(x: Double, eps: Double): Double = sincos(x, eps, 3, (x % (2 * PI)))
 
 /**
  * Средняя (4 балла)
@@ -275,7 +275,7 @@ fun sin(x: Double, eps: Double): Double = sincos(x, eps, 1, (x % (2 * PI)))
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = sincos(x, eps, 0, 1.0)
+fun cos(x: Double, eps: Double): Double = sincos(x, eps, 2, 1.0)
 
 fun universal(n: Int, function: (Int) -> Int): Int {
     var num = n
