@@ -3,8 +3,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
-import kotlin.math.abs
-import kotlin.math.sqrt
+import kotlin.math.*
 
 // Урок 3: циклы
 // Максимальное количество баллов = 9
@@ -125,12 +124,12 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in n / 2 downTo 1) {
+    for (i in n / 2 downTo minDivisor(n)) {
         if (n % i == 0) {
             return i
         }
     }
-    return -1
+    return 1
 }
 
 /**
@@ -250,7 +249,22 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.sin и другие стандартные реализации функции синуса в этой задаче запрещается.
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sincos(x: Double, eps: Double, c: Int, variable: Double): Double {
+    var counter = c
+    var func = variable
+    var blinker = 1
+    var result = 0.0
+    while (eps <= abs(func)) {
+        result += func
+        counter += 2
+        blinker *= -1
+        func = blinker * ((x % (2 * PI)).pow(counter) / factorial(counter))
+    }
+    return result
+
+}
+
+fun sin(x: Double, eps: Double): Double = sincos(x, eps, 1, (x % (2 * PI)))
 
 /**
  * Средняя (4 балла)
@@ -261,7 +275,7 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Подумайте, как добиться более быстрой сходимости ряда при больших значениях x.
  * Использовать kotlin.math.cos и другие стандартные реализации функции косинуса в этой задаче запрещается.
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double = sincos(x, eps, 0, 1.0)
 
 fun universal(n: Int, function: (Int) -> Int): Int {
     var num = n
