@@ -127,8 +127,7 @@ fun abs(v: List<Double>): Double {
     for (i in v.indices) {
         abs += sqr(v[i])
     }
-    abs = sqrt(abs)
-    return abs
+    return sqrt(abs)
 }
 
 /**
