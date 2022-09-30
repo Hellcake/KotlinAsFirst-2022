@@ -189,7 +189,6 @@ fun polynom(p: List<Int>, x: Int): Int {
 }
 
 
-
 /**
  * Средняя (3 балла)
  *
