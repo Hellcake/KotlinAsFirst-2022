@@ -247,6 +247,10 @@ fun convert(n: Int, base: Int): List<Int> {
     val s = mutableListOf<Int>()
     var num = n
     var mod: Int
+    if (num == 0) {
+        s.add(0)
+        return s
+    }
     while (num > 0) {
         mod = num % base
         num /= base
@@ -266,7 +270,18 @@ fun convert(n: Int, base: Int): List<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val s: List<Int> = convert(n, base)
+    val res = mutableListOf<String>()
+    for (i in s.indices) {
+        if (s[i] > 9) {
+            val k = (97 + (s[i] - 10))
+            res.add(k.toChar().toString())
+        } else
+            res.add(s[i].toString())
+    }
+    return res.joinToString(separator = "")
+}
 
 /**
  * Средняя (3 балла)
@@ -275,7 +290,10 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    val s = digits.joinToString(separator = "").toInt()
+    return convert(s, 10).joinToString(separator = "").toInt()
+}
 
 /**
  * Сложная (4 балла)
