@@ -290,10 +290,7 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int {
-    val s = digits.joinToString(separator = "").toInt()
-    return convert(s, 10).joinToString(separator = "").toInt()
-}
+fun decimal(digits: List<Int>, base: Int): Int = TODO()
 
 /**
  * Сложная (4 балла)
