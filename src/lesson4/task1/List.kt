@@ -392,7 +392,7 @@ fun roman(n: Int): String {
                 (k == 4) -> res = "XL$res"
                 (k == 6) -> res = "LX$res"
                 (k == 7) -> res = "LXX$res"
-                (k == 8) -> res = "LXX$res"
+                (k == 8) -> res = "LXXX$res"
                 (k == 9) -> res = "XC$res"
             }
         }
