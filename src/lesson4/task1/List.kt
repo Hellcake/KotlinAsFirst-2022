@@ -290,7 +290,17 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    val b = base.toDouble()
+    var result = 0.0
+    var counter = digits.size - 1
+    for (i in digits.indices) {
+        result += digits[i] * b.pow(counter)
+        counter -= 1
+    }
+    return result.toInt()
+
+}
 
 /**
  * Сложная (4 балла)
@@ -304,7 +314,45 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    val s = mutableListOf<Char>()
+    val res = mutableListOf<Int>()
+    for (i in str.indices) {
+        s.add(str[i])
+    }
+    for (i in s.indices) {
+        when {
+            s[i] == 'a' -> res.add(10)
+            s[i] == 'b' -> res.add(11)
+            s[i] == 'c' -> res.add(12)
+            s[i] == 'd' -> res.add(13)
+            s[i] == 'e' -> res.add(14)
+            s[i] == 'f' -> res.add(15)
+            s[i] == 'g' -> res.add(16)
+            s[i] == 'h' -> res.add(17)
+            s[i] == 'i' -> res.add(18)
+            s[i] == 'j' -> res.add(19)
+            s[i] == 'k' -> res.add(20)
+            s[i] == 'l' -> res.add(21)
+            s[i] == 'm' -> res.add(22)
+            s[i] == 'n' -> res.add(23)
+            s[i] == 'o' -> res.add(24)
+            s[i] == 'p' -> res.add(25)
+            s[i] == 'q' -> res.add(26)
+            s[i] == 'r' -> res.add(27)
+            s[i] == 's' -> res.add(28)
+            s[i] == 't' -> res.add(29)
+            s[i] == 'u' -> res.add(30)
+            s[i] == 'v' -> res.add(31)
+            s[i] == 'w' -> res.add(32)
+            s[i] == 'x' -> res.add(33)
+            s[i] == 'y' -> res.add(34)
+            s[i] == 'z' -> res.add(35)
+            else -> res.add(s[i].toInt() - 48)
+        }
+    }
+    return decimal(res, base)
+}
 
 /**
  * Сложная (5 баллов)
@@ -314,7 +362,70 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var res = ""
+    var s = n
+    var k: Int
+    var counter = 0
+    while (s > 0) {
+        k = s % 10
+        counter += 1
+        if (counter == 1) {
+            when {
+                (k == 1) -> res = "I$res"
+                (k == 2) -> res = "II$res"
+                (k == 3) -> res = "III$res"
+                (k == 5) -> res = "V$res"
+                (k == 4) -> res = "IV$res"
+                (k == 6) -> res = "VI$res"
+                (k == 7) -> res = "VII$res"
+                (k == 8) -> res = "VIII$res"
+                (k == 9) -> res = "IX$res"
+            }
+        }
+        if (counter == 2) {
+            when {
+                (k == 1) -> res = "X$res"
+                (k == 2) -> res = "XX$res"
+                (k == 3) -> res = "XXX$res"
+                (k == 5) -> res = "L$res"
+                (k == 4) -> res = "XL$res"
+                (k == 6) -> res = "LX$res"
+                (k == 7) -> res = "LXX$res"
+                (k == 8) -> res = "LXX$res"
+                (k == 9) -> res = "XC$res"
+            }
+        }
+        if (counter == 3) {
+            when {
+                (k == 1) -> res = "C$res"
+                (k == 2) -> res = "CC$res"
+                (k == 3) -> res = "CCC$res"
+                (k == 5) -> res = "D$res"
+                (k == 4) -> res = "CD$res"
+                (k == 6) -> res = "DC$res"
+                (k == 7) -> res = "DCC$res"
+                (k == 8) -> res = "DCCC$res"
+                (k == 9) -> res = "CM$res"
+            }
+        }
+        if (counter == 4) {
+            when {
+                (k == 1) -> res = "M$res"
+                (k == 2) -> res = "MM$res"
+                (k == 3) -> res = "MMM$res"
+                (k == 5) -> res = "MMMMM$res"
+                (k == 4) -> res = "MMMM$res"
+                (k == 6) -> res = "MMMMMM$res"
+                (k == 7) -> res = "MMMMMMM$res"
+                (k == 8) -> res = "MMMMMMMM$res"
+                (k == 9) -> res = "MMMMMMMMM$res"
+            }
+        }
+        s /= 10
+    }
+    return res
+}
 
 /**
  * Очень сложная (7 баллов)
