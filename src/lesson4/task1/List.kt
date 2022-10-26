@@ -4,6 +4,8 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import ru.spbstu.wheels.toIntArray
+import java.util.StringJoiner
 import kotlin.math.sqrt
 import kotlin.math.*
 
@@ -218,11 +220,11 @@ fun factorize(n: Int): List<Int> {
     val list = mutableListOf<Int>()
     var counter = 2
     while (num > 1) {
-        if (num % counter == 0) {
+        while (num % counter == 0) {
             list.add(counter)
             num /= counter
-            counter = 2
-        } else counter++
+        }
+        counter++
     }
     return list
 }
@@ -271,12 +273,11 @@ fun convert(n: Int, base: Int): List<Int> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun convertToString(n: Int, base: Int): String {
-    val s: List<Int> = convert(n, base)
+    val s = convert(n, base)
     val res = mutableListOf<String>()
     for (i in s.indices) {
         if (s[i] > 9) {
-            val k = (97 + (s[i] - 10))
-            res.add(k.toChar().toString())
+            res.add((97 + (s[i] - 10)).toChar().toString())
         } else
             res.add(s[i].toString())
     }
@@ -315,43 +316,14 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * (например, str.toInt(base)), запрещается.
  */
 fun decimalFromString(str: String, base: Int): Int {
-    val s = mutableListOf<Char>()
-    val res = mutableListOf<Int>()
+    var res = 0
     for (i in str.indices) {
-        s.add(str[i])
+        res *= base
+        res += if (str[i] in 'a'..'z') {
+            str[i] - 'a' + 10
+        } else str[i].code - 48
     }
-    for (i in s.indices) {
-        when {
-            s[i] == 'a' -> res.add(10)
-            s[i] == 'b' -> res.add(11)
-            s[i] == 'c' -> res.add(12)
-            s[i] == 'd' -> res.add(13)
-            s[i] == 'e' -> res.add(14)
-            s[i] == 'f' -> res.add(15)
-            s[i] == 'g' -> res.add(16)
-            s[i] == 'h' -> res.add(17)
-            s[i] == 'i' -> res.add(18)
-            s[i] == 'j' -> res.add(19)
-            s[i] == 'k' -> res.add(20)
-            s[i] == 'l' -> res.add(21)
-            s[i] == 'm' -> res.add(22)
-            s[i] == 'n' -> res.add(23)
-            s[i] == 'o' -> res.add(24)
-            s[i] == 'p' -> res.add(25)
-            s[i] == 'q' -> res.add(26)
-            s[i] == 'r' -> res.add(27)
-            s[i] == 's' -> res.add(28)
-            s[i] == 't' -> res.add(29)
-            s[i] == 'u' -> res.add(30)
-            s[i] == 'v' -> res.add(31)
-            s[i] == 'w' -> res.add(32)
-            s[i] == 'x' -> res.add(33)
-            s[i] == 'y' -> res.add(34)
-            s[i] == 'z' -> res.add(35)
-            else -> res.add(s[i].toInt() - 48)
-        }
-    }
-    return decimal(res, base)
+    return res
 }
 
 /**
@@ -365,64 +337,30 @@ fun decimalFromString(str: String, base: Int): Int {
 fun roman(n: Int): String {
     var res = ""
     var s = n
-    var k: Int
-    var counter = 0
+//    var k: Int
+//    var counter = 0
+    val map = mutableMapOf<Int, String>(
+        1000 to "M",
+        900 to "CM",
+        500 to "D",
+        400 to "CD",
+        100 to "C",
+        90 to "XC",
+        50 to "L",
+        40 to "XL",
+        10 to "X",
+        9 to "IX",
+        5 to "V",
+        4 to "IV",
+        1 to "I"
+    )
     while (s > 0) {
-        k = s % 10
-        counter += 1
-        if (counter == 1) {
-            when {
-                (k == 1) -> res = "I$res"
-                (k == 2) -> res = "II$res"
-                (k == 3) -> res = "III$res"
-                (k == 5) -> res = "V$res"
-                (k == 4) -> res = "IV$res"
-                (k == 6) -> res = "VI$res"
-                (k == 7) -> res = "VII$res"
-                (k == 8) -> res = "VIII$res"
-                (k == 9) -> res = "IX$res"
+        for ((key, value) in map) {
+            while (s / key != 0) {
+                s -= key
+                res += value
             }
         }
-        if (counter == 2) {
-            when {
-                (k == 1) -> res = "X$res"
-                (k == 2) -> res = "XX$res"
-                (k == 3) -> res = "XXX$res"
-                (k == 5) -> res = "L$res"
-                (k == 4) -> res = "XL$res"
-                (k == 6) -> res = "LX$res"
-                (k == 7) -> res = "LXX$res"
-                (k == 8) -> res = "LXXX$res"
-                (k == 9) -> res = "XC$res"
-            }
-        }
-        if (counter == 3) {
-            when {
-                (k == 1) -> res = "C$res"
-                (k == 2) -> res = "CC$res"
-                (k == 3) -> res = "CCC$res"
-                (k == 5) -> res = "D$res"
-                (k == 4) -> res = "CD$res"
-                (k == 6) -> res = "DC$res"
-                (k == 7) -> res = "DCC$res"
-                (k == 8) -> res = "DCCC$res"
-                (k == 9) -> res = "CM$res"
-            }
-        }
-        if (counter == 4) {
-            when {
-                (k == 1) -> res = "M$res"
-                (k == 2) -> res = "MM$res"
-                (k == 3) -> res = "MMM$res"
-                (k == 5) -> res = "MMMMM$res"
-                (k == 4) -> res = "MMMM$res"
-                (k == 6) -> res = "MMMMMM$res"
-                (k == 7) -> res = "MMMMMMM$res"
-                (k == 8) -> res = "MMMMMMMM$res"
-                (k == 9) -> res = "MMMMMMMMM$res"
-            }
-        }
-        s /= 10
     }
     return res
 }
