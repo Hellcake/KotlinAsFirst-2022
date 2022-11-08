@@ -171,7 +171,16 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val res = mapA.toMutableMap()
+    for ((key, value) in mapB) {
+        if (res[key] != value) {
+            if (key in res.keys) res[key] += ", $value"
+            else res[key] = value
+        }
+    }
+    return res
+}
 
 /**
  * Средняя (4 балла)
@@ -183,7 +192,21 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val res = mutableMapOf<String, Double>()
+    val counter = mutableMapOf<String, Int>()
+    for ((key, value) in stockPrices) {
+        if (key in res.keys) {
+            res[key] = res[key]!! + value
+            counter[key] = counter[key]!! + 1
+        } else {
+            counter[key] = 1
+            res[key] = value
+        }
+    }
+    for ((key, count) in counter) res[key] = res[key]!! / count
+    return res
+}
 
 /**
  * Средняя (4 балла)
