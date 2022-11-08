@@ -5,6 +5,7 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import ru.spbstu.wheels.toIntArray
+import java.lang.StringBuilder
 import java.util.StringJoiner
 import kotlin.math.sqrt
 import kotlin.math.*
@@ -277,7 +278,7 @@ fun convertToString(n: Int, base: Int): String {
     val res = mutableListOf<String>()
     for (i in s.indices) {
         if (s[i] > 9) {
-            res.add((97 + (s[i] - 10)).toChar().toString())
+            res.add(('a'.code + (s[i] - 10)).toChar().toString())
         } else
             res.add(s[i].toString())
     }
@@ -321,7 +322,7 @@ fun decimalFromString(str: String, base: Int): Int {
         res *= base
         res += if (str[i] in 'a'..'z') {
             str[i] - 'a' + 10
-        } else str[i].code - 48
+        } else str[i].code - '0'.code
     }
     return res
 }
@@ -335,10 +336,8 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var res = ""
+    val res = StringBuilder()
     var s = n
-//    var k: Int
-//    var counter = 0
     val map = mutableMapOf<Int, String>(
         1000 to "M",
         900 to "CM",
@@ -358,11 +357,11 @@ fun roman(n: Int): String {
         for ((key, value) in map) {
             while (s / key != 0) {
                 s -= key
-                res += value
+                res.append(value)
             }
         }
     }
-    return res
+    return res.toString()
 }
 
 /**
