@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import ru.spbstu.kotlin.typeclass.kind
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -223,7 +225,15 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    val things = mutableMapOf<Double, String>()
+    for ((name, pair) in stuff) {
+        if (pair.first == kind) {
+            things[pair.second] = name
+        }
+    }
+    return if (things.isEmpty()) null else things[things.keys.min()]
+}
 
 /**
  * Средняя (3 балла)
