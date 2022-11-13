@@ -74,7 +74,30 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size < 3) return ""
+    val months = mapOf<String, String>(
+        "января" to "01.", "февраля" to "02.",
+        "марта" to "03.", "апреля" to "04.", "мая" to "05.", "июня" to "06.", "июля" to "07.",
+        "августа" to "08.", "сентября" to "09.", "октября" to "10.", "ноября" to "11.",
+        "декабря" to "12."
+    )
+    val day: String = when {
+        parts[0].toInt() in 1..9 -> "0" + parts[0] + "."
+        parts[0].toInt() in 10..28 -> parts[0] + "."
+        parts[0].toInt() in 10..31 && parts[1] != "февраля" -> parts[0] + "."
+        else -> return ""
+    }
+
+    val month: String? = if (parts[1] in months) {
+        months[parts[1]]
+    } else return ""
+
+
+    val year: String = parts[2]
+    return day + month + year
+}
 
 /**
  * Средняя (4 балла)
@@ -86,8 +109,29 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    val months = mapOf<String, String>(
+        "01" to "января ", "02" to "февраля ",
+        "03" to "марта ", "04" to "апреля ", "05" to "мая ", "06" to "июня ", "07" to "июля ",
+        "08" to "августа ", "09" to "сентября ", "10" to "октября ", "11" to "ноября ",
+        "12" to "декабря "
+    )
+    val day: String = when {
+        parts[0].toInt() in 1..28 -> parts[0].toInt().toString() + " "
+        parts[0].toInt() in 1..31 && parts[1] != "февраля" -> parts[0].toInt().toString() + " "
+        else -> return ""
+    }
 
+    val month: String? = if (parts[1] in months) {
+        months[parts[1]]
+    } else return ""
+
+
+    val year: String = parts[2]
+    return day + month + year
+}
 /**
  * Средняя (4 балла)
  *
