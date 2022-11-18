@@ -149,11 +149,11 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val res = mutableListOf<String>()
+    val res = mutableSetOf<String>()
     for (name in b) {
-        if (name in a && name !in res) res.add(name)
+        if (name in a) res.add(name)
     }
-    return res
+    return res.toList()
 }
 
 /**
@@ -196,17 +196,15 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
     val res = mutableMapOf<String, Double>()
-    val counter = mutableMapOf<String, Int>()
     for ((key, value) in stockPrices) {
         if (key in res.keys) {
             res[key] = res[key]!! + value
-            counter[key] = counter[key]!! + 1
         } else {
-            counter[key] = 1
             res[key] = value
         }
     }
-    for ((key, count) in counter) res[key] = res[key]!! / count
+    val freq = stockPrices.groupingBy { it.first }.eachCount()
+    for ((key, count) in freq) res[key] = res[key]!! / count
     return res
 }
 
@@ -226,13 +224,15 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
-    val things = mutableMapOf<Double, String>()
+    var min = 999999999
+    var product = ""
     for ((name, pair) in stuff) {
-        if (pair.first == kind) {
-            things[pair.second] = name
+        if (pair.first == kind && pair.second < min) {
+            min = pair.second.toInt()
+            product = name
         }
     }
-    return if (things.isEmpty()) null else things[things.keys.min()]
+    return if (min != 999999999) product else null
 }
 
 /**

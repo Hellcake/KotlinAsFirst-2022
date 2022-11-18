@@ -353,14 +353,13 @@ fun roman(n: Int): String {
         4 to "IV",
         1 to "I"
     )
-    while (s > 0) {
-        for ((key, value) in map) {
-            while (s / key != 0) {
-                s -= key
-                res.append(value)
-            }
+    for ((key, value) in map) {
+        while (s / key != 0) {
+            s -= key
+            res.append(value)
         }
     }
+
     return res.toString()
 }
 
