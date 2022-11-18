@@ -79,6 +79,7 @@ fun main() {
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size < 3) return ""
+    if (parts[0].toIntOrNull() == null) return ""
     val months = mapOf<String, String>(
         "января" to "01", "февраля" to "02",
         "марта" to "03", "апреля" to "04", "мая" to "05", "июня" to "06", "июля" to "07",
@@ -86,8 +87,8 @@ fun dateStrToDigit(str: String): String {
         "декабря" to "12"
     )
     val day = when {
-        parts[0].toIntOrNull() in 1..9 && "0" !in parts[0] -> "0" + parts[0] + "."
-        parts[0].toIntOrNull() in 1..months[parts[1]]?.let {
+        parts[0].toInt() in 1..9 && "0" !in parts[0] -> "0" + parts[0] + "."
+        parts[0].toInt() in 1..months[parts[1]]?.let {
             daysInMonth(
                 it.toInt(),
                 parts[2].toInt()
