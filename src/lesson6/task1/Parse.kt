@@ -86,8 +86,8 @@ fun dateStrToDigit(str: String): String {
         "декабря" to "12"
     )
     val day = when {
-        parts[0].toIntOrNull() in 1..9 -> "0" + parts[0] + "."
-        parts[0].toIntOrNull() in 10..months[parts[1]]?.let {
+        parts[0].toIntOrNull() in 1..9 && "0" !in parts[0] -> "0" + parts[0] + "."
+        parts[0].toIntOrNull() in 1..months[parts[1]]?.let {
             daysInMonth(
                 it.toInt(),
                 parts[2].toInt()
