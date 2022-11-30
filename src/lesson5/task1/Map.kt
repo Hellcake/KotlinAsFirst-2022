@@ -2,7 +2,6 @@
 
 package lesson5.task1
 
-import ru.spbstu.kotlin.typeclass.kind
 
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
@@ -149,13 +148,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяющихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val res = mutableSetOf<String>()
-    for (name in b) {
-        if (name in a) res.add(name)
-    }
-    return res.toList()
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b.toSet()).toList()
 
 /**
  * Средняя (3 балла)
@@ -191,7 +184,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  * Для заданного списка пар "акция"-"стоимость" вернуть ассоциативный массив,
  * содержащий для каждой акции ее усредненную стоимость.
  *
- * Например:
+ * Например:>1
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
@@ -226,14 +219,14 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var min = Double.MAX_VALUE + Double.MAX_VALUE
-    var product = ""
+    var product: String? = null
     for ((name, pair) in stuff) {
         if (pair.first == kind && pair.second < min) {
             min = pair.second
             product = name
         }
     }
-    return if (min < Double.MAX_VALUE + Double.MAX_VALUE) product else null
+    return product
 }
 
 /**
