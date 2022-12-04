@@ -185,7 +185,7 @@ fun bestLongJump(jumps: String): Int = TODO()
  */
 fun bestHighJump(jumps: String): Int {
     if (!jumps.matches(Regex("""\d+ [-+%]+( \d+ [-+%]+)*"""))) return -1
-    val res = jumps.replace(Regex("""[%-]"""), "").split("+")
+    val res = jumps.replace(Regex("""[%-]"""), "").split(" ")
     return res[res.lastIndexOf("+") - 1].toInt()
 }
 
