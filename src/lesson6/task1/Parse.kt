@@ -213,10 +213,10 @@ fun firstDuplicateIndex(str: String): Int {
     val strng = str.lowercase().split(" ")
     var counter = 0
     if (strng.size == 1) return -1
-    for (i in strng.indices) {
-        if (strng[i] == strng[i + 1])
+    for (i in 1 until strng.size) {
+        if (strng[i - 1] == strng[i])
             return counter
-        counter += strng[i].length + 1
+        counter += strng[i - 1].length + 1
     }
     return -1
 }
