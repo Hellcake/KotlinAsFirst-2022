@@ -178,7 +178,27 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines()
+    val res = File(outputName).bufferedWriter()
+    val maxL = lines.maxOfOrNull { it.replace(Regex("""\s+"""), " ").trim().length }
+    if (maxL != null) {
+        for (line in lines) {
+            val optimizedLine = line.replace(Regex("""\s+"""), " ").trim()
+            val list = optimizedLine.split(" ").toMutableList()
+            if (list.size > 1) {
+                var space = maxL - optimizedLine.length
+                while (space > 0) {
+                    for (i in 0 until list.size - 1) {
+                        list[i] += " "
+                        space -= 1
+                        if (space == 0) break
+                    }
+                }
+                res.write(list.joinToString(" ") + "\n")
+            } else res.write(optimizedLine + "\n")
+        }
+    }
+    res.close()
 }
 
 /**
