@@ -424,7 +424,7 @@ fun russian(n: Int): String {
     val map23 = mutableMapOf<Int, String>(
         11 to "одиннадцать",
         12 to "двенадцать",
-        13 to "тренадцать",
+        13 to "тринадцать",
         14 to "четырнадцать",
         15 to "пятнадцать",
         16 to "шестнадцать",
