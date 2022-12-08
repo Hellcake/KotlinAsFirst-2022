@@ -284,3 +284,200 @@ fun fromRoman(roman: String): Int = TODO()
  *
  */
 fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+
+
+/**
+ *Короче задается таблица с процентами на налог:
+ * map = [Банковское дело = 4,Горнодобывающая промышленность = 15,Образование = 10]
+ * также задается строка с предприятиями в формате
+ * Название - отрасль - прибыль
+ *
+ * Поликек - Образование - 10000
+ * ООО Горняк - Горнодобывающая промышленность - 1000000000
+ * Бебра - Торговля - 5000
+ *
+ * Для неверного формата вывести ошибку NumberFormatException()
+ *
+ * Для каждого предприятия найти налог, если он не задан в таблице - берем стандартный 13%
+ * Вывести список предприятий отсортированный по налогу...
+ * название функции и тесты придумать самостоятельно
+ * Collection<Any> поменять на тот тип который удобнее или че то такое
+ *
+ * fun myFun(table: Map<<String>,<Int>>, text: String): Collection<Any> =
+ */
+
+fun myFun(table: Map<String, Int>, text: String): List<String> {
+    val map = mutableMapOf<String, Double>()
+    val list = text.split("\n")
+    for (i in list) {
+        if (!i.matches(Regex("""[ёЁА-я ]+ - [ёЁА-я ]+ - \d+"""))) throw IllegalArgumentException()
+        val (name, type, profit) = i.split(" - ")
+        map[name] = table.getOrDefault(type, 13).toDouble() / 100.0 * profit.toDouble()
+        //if (type in table.keys) map[name] = table[type]!!.toDouble() * profit.toDouble() / 100.0
+        //else map[name] = 0.13 * profit.toDouble()
+    }
+    return map.keys.sortedBy { map[it] }
+}
+
+
+/**
+ * На вход функции подается список строк в формате
+ * “Иванов Петр: улица Ленина, 41, кв. 2”
+ * Каждая строка начинается с фамилии и имени человека (разделенных
+ * одним пробелом), далее через запятую пробел(ы) следует адрес:
+ * название улицы (может состоять из нескольких слов через
+ * один пробел),
+ * номер дома (целое число) и номер квартиры
+ * (с префиксом “кв.”; целое число).
+ *
+ * На вход также подается имя человека.
+ *
+ * Вернуть список людей, которые являются соседями
+ * указанного человека
+ * (соседями считаются люди, которые живут в одном доме).
+ *
+ * Имя функции и тип результата функции предложить самостоятельно;
+ * в задании указан тип Collection<Any>,
+ * то есть коллекция объектов произвольного типа,
+ * можно (и нужно) изменить как вид коллекции,
+ * так и тип её элементов.
+ *
+ * При нарушении формата входной строки,
+ * бросить IllegalArgumentException
+ *
+ * Кроме функции, следует написать тесты,
+ * подтверждающие её работоспособность.
+ */
+fun wagner(addresses: List<String>, person: String): List<String> {
+    val answer = mutableMapOf<String, MutableList<String>>()
+    var personAddress = ""
+    for (i in addresses) {
+        if (!i.matches(Regex("""[ёЁA-я\s]+: улица [ёЁA-я\s]+, \d+, кв\. \d+"""))) throw IllegalArgumentException()
+        val name = i.split(":")[0]
+        val address = i.split(":")[1].split(", кв.")[0]
+        if (name == person) {
+            personAddress = address
+        } else {
+            if (address in answer.keys) {
+                answer[address]!!.add(name)
+            } else {
+                answer[address] = mutableListOf(name)
+            }
+        }
+    }
+    return answer[personAddress]!!
+}
+
+
+fun marry(marks: List<String>, cost: Int): Int {
+    var answer = 2
+    val count =
+        listOf("ноль", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять")
+    for (i in marks) {
+        if (!i.matches(Regex("""[ёА-я]+\+[ёА-я]+"""))) throw IllegalArgumentException()
+        var counts = i.split("+")[1]
+        if (!count.contains(counts)) throw IllegalArgumentException()
+        answer += 1 + count.indexOf(counts)
+    }
+    return answer * cost
+}
+
+
+fun telephones(phones: List<String>, prefix: Int): List<String> {
+    val answer = mutableListOf<String>()
+    for (i in phones) {
+        if (!i.matches(Regex("""\d+ [ёЁА-я]+"""))) throw java.lang.IllegalArgumentException()
+        val (number, name) = i.split(" ")
+        if (number.split(prefix.toString())[0] == "") answer += name
+    }
+    return answer
+}
+
+fun exams(examResults: List<String>, humSubjects: List<String>): List<String> {
+    val answer = mutableListOf<String>()
+    for (i in examResults) {
+        var flag = false
+        if (!i.matches(Regex("""[ёА-я]+ [ёА-я]+ - ([ёА-я]+ \d, )*[ёА-я]+ \d"""))) throw IllegalArgumentException()
+        val (name, a) = i.split(" - ")
+        val subjects = a.split(", ")
+        var counter = 0
+        for (j in subjects) {
+            if (j.last() == '3') {
+                if (j.split(" ")[0] in humSubjects) counter += 1
+                else {
+                    flag = true
+                    break
+                }
+                if (counter > 1) {
+                    flag = true
+                    break
+                }
+            }
+            if (j.last() == '2') {
+                flag = true
+                break
+            }
+        }
+        if (!flag) {
+            answer.add(name)
+        }
+    }
+    return answer
+}
+
+fun telephone(names: List<String>, home: String): List<String> {
+    val map = mapOf(
+        '2' to "abc",
+        '3' to "def",
+        '4' to "ghi",
+        '5' to "jkl",
+        '6' to "mno",
+        '7' to "pqrs",
+        '8' to "tuv",
+        '9' to "wxyz",
+    )
+    var names = names.sortedBy { it.length == home.length }
+    var m = String()
+    var answer = mutableListOf<String>()
+    for (i in home.indices) {
+        m = map[home[i]]!!
+        println(m)
+        for (j in names) {
+            if (j[i].lowercase() in m) {
+                answer.add(j)
+            }
+        }
+        if (answer.isEmpty()) {
+            break
+        }
+        names = answer.toMutableList()
+        answer = mutableListOf()
+    }
+    return names
+}
+
+fun nalog(taxes: String, money: Int): Int {
+    val list = taxes.split(", ")
+    val listSum = mutableListOf(0)
+    val listPercent = mutableListOf<Int>()
+    var money = money
+    var answer = 0
+    for (i in list.indices) {
+        if (!list[i].matches(Regex("""(\d+ у.е.)*(else)* - \d+%"""))) throw IllegalArgumentException()
+        if (list[i].split(" ")[0] == "else") {
+            listPercent.add(list[i].split(" - ")[1].split("%")[0].toInt())
+            listSum.add(money)
+        } else {
+            listSum.add(list[i].split(" ")[0].toInt())
+            listPercent.add(list[i].split(" - ")[1].split("%")[0].toInt())
+        }
+    }
+    for (i in listSum.indices - (list.size)) {
+        if (money > i) {
+            answer += (listSum[i + 1] - listSum[i]) * listPercent[i] / 100
+            money -= (listSum[i + 1] - listSum[i])
+        }
+    }
+    return answer
+}
+

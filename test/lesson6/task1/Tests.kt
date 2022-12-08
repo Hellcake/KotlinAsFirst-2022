@@ -150,4 +150,110 @@ class Tests {
         assertThrows(IllegalArgumentException::class.java) { computeDeviceCells(10, "+>+>[+>", 3) }
         assertThrows(IllegalStateException::class.java) { computeDeviceCells(20, ">>>>>>>>>>>>>", 12) }
     }
+
+    @Test
+    fun myFun() {
+        assertEquals(
+            listOf("Бебра", "Поликек", "ООО Горняк"), myFun(
+                mapOf("Банковское дело" to 4, "Горнодобывающая промышленность" to 15, "Образование" to 10),
+                """Поликек - Образование - 10000
+                |ООО Горняк - Горнодобывающая промышленность - 1000000000
+                |Бебра - Торговля - 5000""".trimMargin()
+            )
+        )
+        assertThrows(IllegalArgumentException::class.java) { myFun(mapOf("fff" to 5), "GFFGFGFG") }
+    }
+
+
+    @Test
+    fun wagner() {
+        assertEquals(
+            listOf("Вагнер Артём", "Писькострой Майнкрафтович"), wagner(
+                listOf(
+                    "Иванов Петр: улица Чехова, 41, кв. 22", "Иванов Пётр: улица Чехова, 42, кв. 22",
+                    "Вагнер Артём: улица Чехова, 41, кв. 22", "Писькострой Майнкрафтович: улица Чехова, 41, кв. 32"
+                ),
+                "Иванов Петр"
+            )
+        )
+        assertThrows(IllegalArgumentException::class.java) { wagner(listOf("fff", "341"), "GFFGFGFG") }
+    }
+
+
+    @Test
+    fun marry() {
+        assertEquals(4500, marry(listOf("Петр+два", "Паша+восемь", "Лох+ноль"), 300))
+        assertThrows(java.lang.IllegalArgumentException::class.java) { marry(listOf("13r", "Аа+одиннадцать"), 1) }
+    }
+
+    @Test
+    fun telephones() {
+        assertEquals(
+            listOf("Петров", "Непридумал", "Тоженепридумал"),
+            telephones(
+                listOf(
+                    "460921 Петров",
+                    "934104 Иванов",
+                    "254245 Васильев",
+                    "467832 Непридумал",
+                    "467903184 Тоженепридумал"
+                ), 46
+            )
+        )
+        assertThrows(java.lang.IllegalArgumentException::class.java) {
+            telephones(
+                listOf(
+                    "460921 Петров",
+                    "934104 Иванов",
+                    "254245 Васильев",
+                    "467832 Непридумал",
+                    "f4 Тоженепридумал"
+                ), 46
+            )
+        }
+    }
+
+    @Test
+    fun exams() {
+        assertEquals(
+            listOf("Иван Иванов", "Петр Петров", "Вася Васильев"),
+            exams(
+                listOf(
+                    "Иван Иванов - Математика 4, Физика 5, Русский 3",
+                    "Петр Петров - Математика 4, Физика 4, Русский 4, Общество 3",
+                    "Вася Васильев - Математика 5, Физика 5, Русский 5",
+                    "Ермолин Андрей - Математика 2, Физика 2, Русский 2"
+                ), listOf("Русский", "Общество")
+            )
+        )
+    }
+
+    @Test
+    fun telephone() {
+        assertEquals(
+            listOf("ABCDEF", "BCADFEG"),
+            telephone(
+                listOf("ABCDEF", "BCADFEG", "YUYUYU", "FFDFG", "fggf"),
+                "2223"
+            )
+        )
+    }
+
+    @Test
+    fun nalog() {
+        assertEquals(
+            1600,
+            nalog(
+                "2000 у.е. - 5%, 4000 у.е. - 10%, 6000 у.е. - 15%, else - 25%",
+                10000
+            )
+        )
+        assertEquals(
+            13000,
+            nalog(
+                "20000 у.е. - 0%, 40000 у.е. - 5%, 60000 у.е. - 10%, else - 25%",
+                100000
+            )
+        )
+    }
 }
