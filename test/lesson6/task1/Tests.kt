@@ -256,19 +256,4 @@ class Tests {
             )
         )
     }
-
-    @Test
-    fun transportingAnimals() {
-        assertEquals(
-            mutableListOf("FastAndCheap", "Lux"),
-            transportingAnimals(
-                listOf(
-                    "Supercats: кот - 100000",
-                    "FastAndCheap: кот - 25000, собака - 30000, шиншилла - 5000",
-                    "Lux: кот - 1000000, собака - 1000000, крыса - 1000000, корова - 1000000, бегемот - 1000000"
-                ),
-                listOf("кот", "собака"), 2000000
-            )
-        )
-    }
 }
