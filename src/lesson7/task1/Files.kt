@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import java.lang.IllegalArgumentException
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -505,4 +506,63 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
+
+
+/**
+ * Во входном списке `movers` перечислены компании, которые занимаются
+ * перевозкой домашних животных. Каждая компания описана в следующем
+ * формате:
+ *
+ * имя компании: вид животного - стоимость,
+ *
+ * Пример входных данных:
+ * SuperCats: кот - 100000,
+ * FastAndCheap: кот - 25000, собака - 30000, шиншилла - 5000,
+ * Lux: кот - 1000000, собака - 1000000, крыса - 1000000,
+ * корова - 1000000, бегемот - 1000000,
+ *
+ * Также на вход вам подается еще два параметра: список домашних
+ * животных, которых необходимо перевезти, `pets` и максимальная
+ * сумма, которую хозяева готовы потратить на перевозку, `limit`.
+ *
+ * Вам необходимо имена всех компаний, которые могут перевезти
+ * указанных животных в пределах заданной суммы.
+ *
+ * Например, для указанного списка компаний и параметров
+ * - `pets=["кот", "собака"] money = 20000000` вернуть ["Lux", "FastAndCheap"]
+ * - `pet=["кот"] money = 25000` вернуть ["FastAndCheap"]
+ * - `pet=["бегемот"] money = 500000` вернуть []
+ *
+ * При нарушении формата входных данных следует выбросить
+ * IllegalArgumentException.
+ *
+ * Имя функции и тип результата функции предложить самостоятельно;
+ * в задании указан тип Collection<Any>, то есть коллекция объектов
+ * произвольного типа, можно (и нужно) изменить как вид коллекции,
+ * так и тип её элементов.
+ *
+ * Кроме функции, следует написать тесты,
+ * подтверждающие её работоспособность.
+ */
+fun animals(movers: List<String>, pets: List<String>, limit: Int): Set<String> {
+    val result = mutableSetOf<String>()
+    for (move in movers) {
+        if (!Regex("""[а-яА-ЯA-Za-zёЁ]+:\s([а-яА-Яa-zA-ZёЁ]+\s-\s\d+,*\s*)*""").matches(move)) throw IllegalArgumentException("Ошибка ввода")
+        var remainMoney = limit
+        val petMap = mutableMapOf<String, Int>()
+        val str = move.split(": ")
+        val companyName = str[0]
+        val petList = str[1].split(",")
+        petList.forEach { element ->
+            val info = element.split(" - ")
+            petMap[info[0].trim()] = info[1].toInt()
+        }
+        if (pets.any { it !in petMap }) continue
+        pets.forEach { remainMoney -= petMap[it]!! }
+        if (remainMoney < 0) continue
+        result.add(companyName)
+    }
+    return result.toMutableSet()
+}
+
 
