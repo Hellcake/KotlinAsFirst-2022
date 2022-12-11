@@ -78,7 +78,7 @@ fun main() {
  */
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    if (Regex("""([1-9]|[12][0-9]|3[0-1])\s[а-я]+\s\d+""").matches(str)) {
+    if (Regex("""([1-9]|0[1-9]|[12][0-9]|3[0-1])\s[а-я]+\s\d+""").matches(str)) {
         val months = mapOf<String, String>(
             "января" to "01", "февраля" to "02",
             "марта" to "03", "апреля" to "04", "мая" to "05", "июня" to "06", "июля" to "07",
