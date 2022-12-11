@@ -65,12 +65,15 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  */
 fun deleteMarked(inputName: String, outputName: String) {
     val lines = File(inputName).readLines()
-    val res = File(outputName).bufferedWriter()
-    for (line in lines) {
-        if (line.isEmpty()) res.write("\n")
-        else if (line[0] != '_') res.write("$line\n")
+    File(outputName).bufferedWriter().use {
+        for (line in lines) {
+            if (line.isEmpty()) it.newLine()
+            else if (line[0] != '_') {
+                it.write(line)
+                it.newLine()
+            }
+        }
     }
-    res.close()
 }
 
 /**
@@ -135,20 +138,17 @@ fun sibilants(inputName: String, outputName: String) {
  */
 fun centerFile(inputName: String, outputName: String) {
     val lines = File(inputName).readLines()
-    val res = File(outputName).bufferedWriter()
-    val maxL = lines.maxOfOrNull { it.trim().length }
-    if (maxL != null) {
-        for (line in lines) {
-            val withoutSpace = line.trim()
-            var space = (maxL - withoutSpace.length) / 2
-            while (space != 0) {
-                res.write(" ")
-                space -= 1
+    File(outputName).bufferedWriter().use {
+        val maxL = lines.maxOfOrNull { it.trim().length }
+        if (maxL != null) {
+            for (line in lines) {
+                val withoutSpace = line.trim()
+                val space = (maxL - withoutSpace.length) / 2
+                it.write(withoutSpace.padStart(withoutSpace.length + space))
+                it.newLine()
             }
-            res.write(withoutSpace + "\n")
         }
     }
-    res.close()
 }
 
 /**
@@ -180,26 +180,30 @@ fun centerFile(inputName: String, outputName: String) {
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
     val lines = File(inputName).readLines()
-    val res = File(outputName).bufferedWriter()
-    val maxL = lines.maxOfOrNull { it.replace(Regex("""\s+"""), " ").trim().length }
-    if (maxL != null) {
-        for (line in lines) {
-            val optimizedLine = line.replace(Regex("""\s+"""), " ").trim()
-            val list = optimizedLine.split(" ").toMutableList()
-            if (list.size > 1) {
-                var space = maxL - optimizedLine.length
-                while (space > 0) {
-                    for (i in 0 until list.size - 1) {
-                        list[i] += " "
-                        space -= 1
-                        if (space == 0) break
+    File(outputName).bufferedWriter().use {
+        val maxL = lines.maxOfOrNull { it.replace(Regex("""\s+"""), " ").trim().length }
+        if (maxL != null) {
+            for (line in lines) {
+                val optimizedLine = line.replace(Regex("""\s+"""), " ").trim()
+                val list = optimizedLine.split(" ").toMutableList()
+                if (list.size > 1) {
+                    var space = maxL - optimizedLine.length
+                    while (space > 0) {
+                        for (i in 0 until list.size - 1) {
+                            list[i] += " "
+                            space -= 1
+                            if (space == 0) break
+                        }
                     }
+                    it.write(list.joinToString(" "))
+                    it.newLine()
+                } else {
+                    it.write(optimizedLine)
+                    it.newLine()
                 }
-                res.write(list.joinToString(" ") + "\n")
-            } else res.write(optimizedLine + "\n")
+            }
         }
     }
-    res.close()
 }
 
 /**

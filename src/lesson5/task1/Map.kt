@@ -197,8 +197,8 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
             res[key] = value
         }
     }
-    val freq = stockPrices.groupingBy { it.first }.eachCount()
-    for ((key, count) in freq) res[key] = res[key]!! / count
+    val freq = stockPrices.groupBy { it.first }
+    for ((key, count) in freq) res[key] = res[key]!! / count.size
     return res
 }
 

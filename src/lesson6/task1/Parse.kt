@@ -78,33 +78,33 @@ fun main() {
  */
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    if (parts.size < 3) return ""
-    if (parts[0].toIntOrNull() == null) return ""
-    if (parts[2].toIntOrNull() == null) return ""
-    val months = mapOf<String, String>(
-        "января" to "01", "февраля" to "02",
-        "марта" to "03", "апреля" to "04", "мая" to "05", "июня" to "06", "июля" to "07",
-        "августа" to "08", "сентября" to "09", "октября" to "10", "ноября" to "11",
-        "декабря" to "12"
-    )
-    val day = when {
-        parts[0].toInt() in 1..9 && "0" !in parts[0] -> "0" + parts[0] + "."
-        parts[0].toInt() in 1..months[parts[1]]?.let {
-            daysInMonth(
-                it.toInt(),
-                parts[2].toInt()
-            )
-        }!! -> parts[0] + "."
+    if (Regex("""([1-9]|[12][0-9]|3[0-1])\s[а-я]+\s\d+""").matches(str)) {
+        val months = mapOf<String, String>(
+            "января" to "01", "февраля" to "02",
+            "марта" to "03", "апреля" to "04", "мая" to "05", "июня" to "06", "июля" to "07",
+            "августа" to "08", "сентября" to "09", "октября" to "10", "ноября" to "11",
+            "декабря" to "12"
+        )
+        val day = when {
+            parts[0].toInt() in 1..9 && "0" !in parts[0] -> "0" + parts[0] + "."
+            parts[0].toInt() in 1..months[parts[1]]?.let {
+                daysInMonth(
+                    it.toInt(),
+                    parts[2].toInt()
+                )
+            }!! -> parts[0] + "."
 
-        else -> return ""
+            else -> return ""
+        }
+
+        val month = if (parts[1] in months) {
+            months[parts[1]] + "."
+        } else return ""
+
+        val year = parts[2]
+        return day + month + year
     }
-
-    val month = if (parts[1] in months) {
-        months[parts[1]] + "."
-    } else return ""
-
-    val year = parts[2]
-    return day + month + year
+    return ""
 }
 
 /**
@@ -119,30 +119,30 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    if (parts.size != 3) return ""
-    if (parts[0].toIntOrNull() == null) return ""
-    if (parts[2].toIntOrNull() == null) return ""
-    val months = mapOf(
-        "01" to "января ", "02" to "февраля ",
-        "03" to "марта ", "04" to "апреля ", "05" to "мая ", "06" to "июня ", "07" to "июля ",
-        "08" to "августа ", "09" to "сентября ", "10" to "октября ", "11" to "ноября ",
-        "12" to "декабря "
-    )
-    val day = when {
-        parts[0].toInt() in 1..daysInMonth(
-            parts[1].toInt(), parts[2].toInt()
-        ) -> parts[0].toInt().toString() + " "
+    if (Regex("""(0[1-9]|[12][0-9]|3[0-1])\.(0[1-9]|1[0-2])\.\d+""").matches(digital)) {
+        val months = mapOf(
+            "01" to "января ", "02" to "февраля ",
+            "03" to "марта ", "04" to "апреля ", "05" to "мая ", "06" to "июня ", "07" to "июля ",
+            "08" to "августа ", "09" to "сентября ", "10" to "октября ", "11" to "ноября ",
+            "12" to "декабря "
+        )
+        val day = when {
+            parts[0].toInt() in 1..daysInMonth(
+                parts[1].toInt(), parts[2].toInt()
+            ) -> parts[0].toInt().toString() + " "
 
-        else -> return ""
+            else -> return ""
+        }
+
+        val month = if (parts[1] in months) {
+            months[parts[1]]
+        } else return ""
+
+
+        val year = parts[2]
+        return day + month + year
     }
-
-    val month = if (parts[1] in months) {
-        months[parts[1]]
-    } else return ""
-
-
-    val year = parts[2]
-    return day + month + year
+    return ""
 }
 /**
  * Средняя (4 балла)
@@ -184,7 +184,7 @@ fun bestLongJump(jumps: String): Int = TODO()
  * вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    if (!jumps.matches(Regex("""\d+ [-+%]+( \d+ [-+%]+)*"""))) return -1
+    if (!jumps.matches(Regex("""\d+ [-+%]+( \d+ [-+%]+)*""")) or !jumps.contains("+")) return -1
     val res = jumps.replace(Regex("""[%-]"""), "").split(" ")
     return res[res.lastIndexOf("+") - 1].toInt()
 }
