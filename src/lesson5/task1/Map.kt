@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
 package lesson5.task1
+import kotlin.math.max
 
 
 // Урок 5: ассоциативные массивы и множества
@@ -356,4 +357,28 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
  *     450
  *   ) -> emptySet()
  */
-fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> = TODO()
+fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<String> {
+    val res = mutableSetOf<String>()
+    val name = treasures.keys.toList()
+    val props = treasures.values.toList()
+    var n = treasures.size
+    val size = MutableList(n + 1) { MutableList(capacity + 1) { 0 } }
+
+    for (i in 1..n) {
+        for (j in 1..capacity) {
+            if (j >= props[i - 1].first) {
+                size[i][j] = max(size[i - 1][j], size[i - 1][j - props[i - 1].first] + props[i - 1].second)
+            } else size[i][j] = size[i - 1][j]
+        }
+    }
+
+    var sum = capacity
+    while (n > 0) {
+        n--
+        if (size[n + 1][sum] != size[n][sum]) {
+            res.add(name[n])
+            sum -= props[n].first
+        }
+    }
+    return res
+}

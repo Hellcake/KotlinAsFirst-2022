@@ -3,7 +3,7 @@
 package lesson7.task1
 
 import java.io.File
-import java.lang.IllegalArgumentException
+import kotlin.math.log10
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -510,7 +510,91 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
+/*{
+    val result = StringBuilder()
+    val quotient = StringBuilder()
+    val reminder = StringBuilder()
 
+    fun calculateDigit(i: Int): Int = log10(i.toDouble()).toInt() + 1
+
+    fun assemblyString(numberOfSymbols: Int, symbol: Char): String {
+        val string = StringBuilder()
+        for (i in 0..numberOfSymbols) {
+            string.append(symbol)
+        }
+        return string.toString()
+    }
+
+    fun makeDivider(reminderNumber: Int, tab: Int): String =
+        assemblyString(tab - 2, ' ') + assemblyString(calculateDigit(reminderNumber), '-')
+
+    fun modifyResultToView(dividend: Int, divisor: Int) {
+        val index = IntArray(3)
+        var i = 0
+        var j = 0
+        while (i < result.length) {
+            if (result[i] == '\n') {
+                index[j] = i
+                j++
+            }
+            if (j == 3) {
+                break
+            }
+            i++
+        }
+        val tab = calculateDigit(dividend) + 1 - index[0]
+        result.insert(
+            index[1],
+            assemblyString(tab, ' ') + assemblyString(quotient.length - 2, ' ') + (quotient).toString()
+        )
+        result.insert(index[0], " | $divisor")
+        result.replace(1, index[0], dividend.toString())
+    }
+
+    val digits = lhv.toString().split("").toMutableList()
+    digits.remove("")
+    var reminderNumber: Int
+    var multiplyResult: Int
+    val divisorDigit = calculateDigit(rhv)
+    var mod: Int
+    for (i in 0 until digits.size) {
+        reminder.append(digits[i])
+        reminderNumber = reminder.toString().toInt()
+        if (reminderNumber >= rhv) {
+            mod = reminderNumber % rhv
+            multiplyResult = reminderNumber / rhv * rhv
+            val lastReminder = String.format("%" + (i + 2) + "d", reminderNumber)
+            result.append(lastReminder).append("\n")
+            val multiply = String.format("%" + (i + 2) + "s", "-$multiplyResult")
+            result.append(multiply).append("\n")
+            val tab = lastReminder.length - calculateDigit(multiplyResult)
+            result.append(makeDivider(reminderNumber, tab)).append("\n")
+            quotient.append(reminderNumber / rhv)
+            reminder.replace(0, reminder.length, mod.toString())
+            reminderNumber = reminder.toString().toInt()
+        }
+        if (i >= divisorDigit && reminderNumber.toString().length == rhv.toString().length) {
+            mod = reminderNumber % rhv
+            multiplyResult = 0
+            val lastReminder = String.format("%" + (i + 2) + "d", reminderNumber)
+            result.append(lastReminder).append("\n")
+            val multiply = String.format("%" + (i + 2) + "s", "-$multiplyResult")
+            result.append(multiply).append("\n")
+            val tab = lastReminder.length - reminderNumber.toString().length + 1
+            result.append(makeDivider(9, tab)).append("\n")
+            quotient.append(reminderNumber / rhv)
+            reminder.replace(0, reminder.length, mod.toString())
+            reminderNumber = reminder.toString().toInt()
+        }
+        if (i == digits.size - 1) {
+            result.append(String.format("%" + (i + 2) + "s", reminderNumber.toString())).append("\n")
+        }
+    }
+    modifyResultToView(lhv, rhv)
+    println(result.toString())
+    File(outputName).writeText(result.toString())
+}
+*/
 
 /**
  * Во входном списке `movers` перечислены компании, которые занимаются
