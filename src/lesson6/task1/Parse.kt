@@ -79,6 +79,7 @@ fun main() {
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (Regex("""([1-9]|0[1-9]|[12][0-9]|3[0-1])\s[а-я]+\s\d+""").matches(str)) {
+        val days = parts[0].toInt()
         val months = mapOf<String, String>(
             "января" to "01", "февраля" to "02",
             "марта" to "03", "апреля" to "04", "мая" to "05", "июня" to "06", "июля" to "07",
@@ -86,8 +87,8 @@ fun dateStrToDigit(str: String): String {
             "декабря" to "12"
         )
         val day = when {
-            parts[0].toInt() in 1..9 && "0" !in parts[0] -> "0" + parts[0] + "."
-            parts[0].toInt() in 1..months[parts[1]]?.let {
+            days in 1..9 && "0" !in days.toString() -> "0$days."
+            days in 1..months[parts[1]]?.let {
                 daysInMonth(
                     it.toInt(),
                     parts[2].toInt()
@@ -120,16 +121,17 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
     if (Regex("""(0[1-9]|[12][0-9]|3[0-1])\.(0[1-9]|1[0-2])\.\d+""").matches(digital)) {
+        val days = parts[0].toInt()
         val months = mapOf(
             "01" to "января ", "02" to "февраля ",
             "03" to "марта ", "04" to "апреля ", "05" to "мая ", "06" to "июня ", "07" to "июля ",
             "08" to "августа ", "09" to "сентября ", "10" to "октября ", "11" to "ноября ",
             "12" to "декабря "
         )
-        val day = when {
-            parts[0].toInt() in 1..daysInMonth(
+        val day = when (days) {
+            in 1..daysInMonth(
                 parts[1].toInt(), parts[2].toInt()
-            ) -> parts[0].toInt().toString() + " "
+            ) -> "$days "
 
             else -> return ""
         }
