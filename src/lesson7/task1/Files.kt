@@ -205,7 +205,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
         }
     }
 }
-
+//
 /**
  * Средняя (14 баллов)
  *
